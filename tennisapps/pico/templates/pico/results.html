@@ -1,0 +1,317 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Лига 2021: Групповой турнир по теннису г.Дзержинск</title>
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap" rel="stylesheet">
+        <style>
+            body {
+                font-family: 'Roboto Condensed', sans-serif;
+                font-size: 1em;
+                /* border-left: 4px solid #00aeef; */
+                padding: 0;
+                margin: 0;
+                background: #f1f1f1;
+                color: #051224;
+            }
+
+            header, span.winner {
+                font-weight: bold;
+            }
+
+            section {
+                display: table;
+                width: 100%;
+            }
+
+            section > * {
+                display: table-row;
+            }
+            
+            section .col {
+                display: table-cell;
+            }
+
+            .table {
+                display: flex;
+                flex-flow: column nowrap;
+                font-size: .9rem;
+                margin: 0.5rem;
+                line-height: 1.5;
+                border-bottom: 1px solid #d0d0d0;
+                flex: 1 1 auto;
+            }
+
+            .resultstable, .upcomingtable {
+                display: flex;
+                flex-flow: column nowrap;
+                font-size: .9rem;
+                margin: 0.5rem;
+                line-height: 1.5;
+                flex: 1 1 auto;
+            }
+
+            .th {
+                display: none;
+                font-weight: 700;
+                background-color: #f2f2f2;
+            }
+
+            .th > .td {
+                white-space: normal;
+                justify-content: center;
+            }
+
+            .tr {
+                width: 100%;
+                display: flex;
+                flex-flow: row nowrap;
+            }
+
+            .td {
+                display: flex;
+                flex-flow: row nowrap;
+                flex-grow: 1;
+                flex-basis: 0;
+                padding: 0.5em;
+                word-break: break-word;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                min-width: 0px;
+                white-space: nowrap;
+                border-bottom: 1px solid #d0d0d0;
+            }
+
+            .results, .upcoming {
+                display: flex;
+                flex-flow: row nowrap;
+                flex-grow: 1;
+                flex-basis: 0;
+                padding: 0.5em;
+                word-break: break-word;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                min-width: 0px;
+                white-space: nowrap;
+            }
+
+            div .matches:before {
+                content: "Матчи";
+            }
+
+            div .wins:before {
+                content: "Победы";
+            }
+
+            div .losses:before {
+                content: "Поражения";
+            }
+
+            div .setsdiff:before {
+                content: "Разница сетов";
+            }
+
+            div .gamesdiff:before {
+                content: "Разница геймов";
+            }
+
+            #main {
+                width: 1024px;
+                margin: 0 auto;
+                background: #fff;
+                border: 1px solid #c7c8c8;
+                padding: 1em;
+            }
+
+            #menu-header {
+                background: #fff;
+                position: relative;
+                top: 0;
+                left: 0;
+                box-shadow: 0px 3px 3px 0px rgba(0,0,0,0.17);
+                margin: 0 auto;
+            }
+
+            #menu-header div {
+                width: 1024px;
+                margin: 0 auto;
+                margin-bottom: 1em;
+            }
+
+            ul {
+                display: inline-flex;
+                list-style: none;
+                padding-left: 0;
+            }
+
+            li {
+                margin-left: 1em;
+            }
+
+            a, li a {
+                text-decoration: none;
+                color: #1f2223;
+            }
+
+            a:hover, li a:hover {
+                text-decoration: underline;
+                color: #00aeef;
+            }
+
+            #top {
+                background-color: #051224;;
+            }
+
+            #top div {
+                width: 1024px;
+                margin: 0 auto;
+                height: 80px;
+            }
+
+            li.current span {
+                border-bottom: 3px solid #00aeef;
+                padding-bottom: 4px;
+            }
+
+            #imglogo {
+                position: relative;
+                top: 10px;
+            }
+
+            .blacked {
+                background-color: dimgray;
+            }
+
+            .rotate {
+                transform: rotate(-90deg);
+                /* Safari */
+                -webkit-transform: rotate(-90deg);
+                /* Firefox */
+                -moz-transform: rotate(-90deg);
+                /* IE */
+                -ms-transform: rotate(-90deg);
+                /* Opera */
+                -o-transform: rotate(-90deg);
+                /* Internet Explorer */
+                filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+            }
+
+            div.results div.td {
+                border: 1px solid red;
+            }
+
+            table {
+                border-collapse:collapse;
+            }
+
+            td {
+                padding: 1em;
+                text-align: center;
+                width: 3.5em;
+            }
+
+            div.verticaltext {
+                writing-mode: sideways-lr;
+                vertical-align: bottom;
+                text-align: center;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                min-height: 3em;
+                line-height: 1em;
+                width: 2.5em;
+            }
+
+            @media only screen and (max-width: 500px) {
+                div .matches:before {
+                    content: "М";
+                }
+                div .wins:before {
+                    content: "В";
+                }
+                
+                div .losses:before {
+                    content: "П";
+                }
+
+                div .setsdiff:before {
+                    content: "РС";
+                }
+
+                div .gamesdiff:before {
+                    content: "РГ";
+                }
+
+                #main {
+                    margin: 0 auto;
+                    width: 88%;
+                }
+
+                #menu-header div, #top div {
+                    max-width: 500px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div id="top">
+            <div>
+                <img id="imglogo" src="{% static 'images/logo.png' %}" width="468" height="60">
+            </div>
+        </div>
+        <div id="menu-header">
+            <div>
+                <ul>
+                    <li><span><a href="/">Главная</a></span></li>
+                    <li class="current"><span><a href="/results">Таблица результатов</a></span></li>
+                    <li><span><a href="/schedule">Расписание матчей</a></span></li>
+                    <li><span><a target="_blank" rel="noopener noreferrer" href="https://docs.google.com/spreadsheets/d/1Ng1o63rZRUVlnneu163OPFS3X4dWmjM9Jx_1v0VnVlA">Google Sheets</a></li>
+                </ul>
+            </div>
+        </div>
+        <div id="main">
+            <div>
+                <h2>Таблица результатов</h2>
+                <table border="1" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td class="blacked"></td>
+                        {% for player in players %}
+                        <td><div class="verticaltext">{{ player.last_name }}</div></td>
+                        {% endfor %}
+                    </tr>
+                    {% for player_results in players_results %}
+                    <tr>
+                        {% for data in player_results %}
+                        {% if forloop.counter0 == forloop.parentloop.counter %}
+                        <td class="blacked"></td>
+                        {% else %}
+                        <td>{{ data }}</td>
+                        {% endif %}
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            <div>
+                <h2>Результаты матчей</h2>
+                <div>
+                    <div class="resultstable">
+                        {% for result in matches %}
+                        <div class="tr">
+                            <div class="results" style="justify-content: start; flex: 0 0 5em;">{{ result.datetime|date:'d-m-Y' }}</div>
+                            {% if result.player_one == result.winner %}
+                            <div class="results" style="justify-content: start; flex: 0 0 10em;"><span class="winner">{{ result.player_one.last_name }}</span>&nbsp;-&nbsp;{{ result.player_two.last_name }}</div>
+                            {% else %}
+                            <div class="results" style="justify-content: start; flex: 0 0 10em;">{{ result.player_one.last_name }}&nbsp;-&nbsp;<span class="winner">{{ result.player_two.last_name }}</span></div>
+                            {% endif %}
+                            <div class="results">{{ result.score }}</div>
+                        </div>
+                        {% endfor %}                    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
